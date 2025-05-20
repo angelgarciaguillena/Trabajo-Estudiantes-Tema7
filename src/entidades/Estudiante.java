@@ -117,6 +117,19 @@ public class Estudiante {
 		return email;
 	}
 	
+	
+	/**
+	 * Funcion que modifica el email comprobando
+	 * si su valor es valido
+	 * 
+	 * @param email Nuevo email del estudiante
+	 */
+	public void setEmail(String email) {
+		if(email != null && !email.isBlank()) {
+			this.email = email;
+		}
+	}
+	
 	/**
 	 * Funcion que devuelve el telefono del estudiante
 	 * 
@@ -124,6 +137,18 @@ public class Estudiante {
 	 */
 	public String getTelefono() {
 		return telefono;
+	}
+	
+	/**
+	 * Funcion que modifica el telefono comprobando si su valor es valio
+	 * antes de asignarlo
+	 * 
+	 * @param telefono Nuevo telefono del estudiante
+	 */
+	public void setTelefono(String telefono) {
+		if(telefono.length() == 9) {
+			this.telefono = telefono;
+		}
 	}
 	
 	/**
@@ -156,7 +181,7 @@ public class Estudiante {
 	 */
 	@Override
 	public String toString() {
-		return this.nombre + " " + this.apellido + " - " + this.fechaNacimiento + " - " + this.email + " - " + this.telefono;
+		return this.id + " - " + this.nombre + " " + this.apellido + " - " + this.fechaNacimiento + " - " + this.email + " - " + this.telefono;
 	}
 }
 

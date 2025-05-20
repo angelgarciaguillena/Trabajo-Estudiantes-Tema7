@@ -15,13 +15,27 @@ class Estudiante
 	+ getEmail()
 	+ getTelefono()
 	--------------------------------
+	+ setEmail(String email)
+	+ setTelefono(int telefono)
+	--------------------------------
 	@Override:
 	+ public int hashCode()
 	+ public boolean equals()
 	+ public String toString()
 	
 class EstudianteDAO
-
+	- Connection conexion
+	--------------------------------
+	public EstudianteDAO
+	--------------------------------
+	+ getConexion()
+	--------------------------------
+	+ public void crearEstudiante(Estudiante estudiante)
+	+ public ArrayList<Estudiante> listarEstudiantes()
+	+ public Estudiante buscarEstudiante(int id)
+	+ public void modificarEstudianteEmail(int id)
+	+ public void modificarEstudianteTelefono(int id)
+	+ public void eliminarEstudiante(Estudiante estudiante) 
 
 class Constantes
 	+ public static final String CONEXION = "jdbc:mysql://localhost/institutodb";
