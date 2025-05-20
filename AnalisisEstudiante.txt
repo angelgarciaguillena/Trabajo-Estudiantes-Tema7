@@ -1,0 +1,29 @@
+class Estudiante
+	- int id
+	- String nombre
+	- String apellido
+	- String fechaNacimiento
+	- String email
+	- String telefono
+	--------------------------------
+	public Estudiante(String nombre, String apellido, String fechaNacimiento, String email, String telefono)
+	--------------------------------
+	+ getId()
+	+ getNombre()
+	+ getApellido()
+	+ getFechaNacimiento()
+	+ getEmail()
+	+ getTelefono()
+	--------------------------------
+	@Override:
+	+ public int hashCode()
+	+ public boolean equals()
+	+ public String toString()
+	
+class EstudianteDAO
+
+
+class Constantes
+	+ public static final String CONEXION = "jdbc:mysql://localhost/institutodb";
+	+ public static final String USUARIO = "root";
+	+ public static final String CONTRASEÑA = "AngelSQL1234";
