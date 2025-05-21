@@ -101,7 +101,7 @@ public class EstudianteDAO {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Error: No se ha podido realizar la consulta " + e.getMessage());
+			System.out.println("Error: No se ha podido mostrar a los estudiantes de la base de datos " + e.getMessage());
 		}
 		
 		return estudiantes;
@@ -141,7 +141,7 @@ public class EstudianteDAO {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Error: No se ha podido realizar la consulta " + e.getMessage());
+			System.out.println("Error: No se ha encontrado al estudiante " + e.getMessage());
 		}
 		
 		estudiante = new Estudiante(idEstudiante, nombre, apellido, fechaNacimiento, email, telefono);
@@ -192,7 +192,7 @@ public class EstudianteDAO {
 			sentencia.executeUpdate(consulta);
 			
 		} catch (SQLException e) {
-			System.out.println("Error: No se ha podido eliminar al estudiante " + e.getMessage());
+			System.out.println("Error: No existe el estudiante " + e.getMessage());
 		}
 	}
 }
