@@ -73,6 +73,41 @@ public class Estudiante {
 	}
 	
 	/**
+	 * Constructor que inicializa los atributos de la clase Estudiante con el id comprobando 
+	 * que los valores son validos antes de asignarlos
+	 * @param id Id del estudiante
+	 * @param nombre Nombre del estudiante
+	 * @param apellido Apellido del estudiante
+	 * @param fechaNacimiento Fecha de nacimiento del estudiante
+	 * @param email Email del estudiante
+	 * @param telefono Telefono del estudiante
+	 */
+	public Estudiante(int id, String nombre, String apellido, String fechaNacimiento, String email, String telefono) {
+		
+		this.id = id;
+		
+		if(nombre != null && !nombre.isBlank()) {
+			this.nombre = nombre;
+		}
+		
+		if(apellido != null && !apellido.isBlank()) {
+			this.apellido = apellido;
+		}
+		
+		if(fechaNacimiento != null && !fechaNacimiento.isBlank()) {
+			this.fechaNacimiento = fechaNacimiento;
+		}
+		
+		if(email != null && !email.isBlank()) {
+			this.email = email;
+		}
+		
+		if(telefono.length() == 9) {
+			this.telefono = telefono;
+		}
+	}
+	
+	/**
 	 * Funcion que devuelve el id del estudiante
 	 * 
 	 * @return Devuelve el id del estudiante
