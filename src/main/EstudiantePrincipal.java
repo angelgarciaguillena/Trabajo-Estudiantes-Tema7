@@ -8,6 +8,9 @@ import dao.EstudianteDAO;
 
 public class EstudiantePrincipal {
 	
+	/*Creamos un Scanner*/
+	static Scanner sc = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		
 		/*Creamos una variable para almacenar la opcion del usuario*/
@@ -24,9 +27,6 @@ public class EstudiantePrincipal {
 		
 		/*Creamos una lista para almacenar a los estudiantes*/
 		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
-		
-		/*Creamos un Scanner*/
-		Scanner sc = new Scanner(System.in);
 		
 		/*Si la conexion no es valida no iniciamos el programa*/
 		if(estudianteDAO.getConexion() != null) {
@@ -51,16 +51,24 @@ public class EstudiantePrincipal {
 				/*Si la opcion es 2 listamos a todos los estudiantes*/
 				case 2 -> {
 					
-					/*Almacenamos a los estudiantes existentes en la base de datos*/
+					/*Almacenamos a los estudiantes existentes en la base de datos llamando a la funcion*/
 					estudiantes = estudianteDAO.listarEstudiantes();
 					
-					/*Mostramos a los estudiantes*/
+					/*Mostramos a los estudiantes llamando a la funcion*/
 					mostrarEstudiantes(estudiantes);
 				}
 				
-				/*Si la opcion es 3 buscamos a un estudiante*/
+				/*Si la opcion es 3 buscamos a un estudiante por su id*/
 				case 3 -> {
 					
+					/*Pedimos la id del estudiante al usuario llamando a la funcion*/
+					id = pedirId();
+					
+					/*Buscamos al estudiante en la base de datos llamando a la funcion*/
+					estudiante = estudianteDAO.buscarEstudiante(id);
+					
+					/*Mostramos la informacion del estudiante*/
+					System.out.println("\n" + "Estudiane: " + estudiante);
 				}
 				
 				/*Si la opcion es 4 modificamos un campo del estudiante*/
@@ -109,5 +117,21 @@ public class EstudiantePrincipal {
 		for(Estudiante estudiante : estudiantes) {
 			System.out.println(estudiante);
 		}
+	}
+	
+	private static int pedirId() {
+		
+		/*Creamos una variable para almacenar el id del estudiante*/
+		int id;
+		
+		/*Pedimos al usuario que introduzca el id del estudiante*/
+		System.out.println("Introduce el id del estudiante");
+		
+		/*Leemos el id del estudiante*/
+		id = sc.nextInt();
+		sc.nextLine();
+		
+		/*Devolvemos el id del estudiante*/
+		return id;
 	}
 }
