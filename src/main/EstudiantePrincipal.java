@@ -36,16 +36,17 @@ public class EstudiantePrincipal {
 		
 		/*Si la conexion no es valida no iniciamos el programa*/
 		if(estudianteDAO.getConexion() != null) {
-			
-			/*Mostramos el menu llamando a la funcion*/
-			menuPrincipal();
-			
-			/*Leemos la opcion del usuario*/
-			opcion = sc.nextInt();
-			sc.nextLine();
-			
+						
 			/*Creamos un bucle do while para ejecutar el programa hasta que el usuario desee salir*/
 			do {
+				
+				/*Mostramos el menu llamando a la funcion*/
+				menuPrincipal();
+				
+				/*Leemos la opcion del usuario*/
+				opcion = sc.nextInt();
+				sc.nextLine();
+				
 				/*Creamos un switch para que depende de la opcion del usuario se realice una funcion u otra*/
 				switch(opcion) {
 				
@@ -61,8 +62,6 @@ public class EstudiantePrincipal {
 						/*Creamos al estudiante en la base de datos llamando a la funcion*/
 						if(estudianteDAO.crearEstudiante(estudiante)) {
 							System.out.println("Se ha creado al estudiante en la base de datos");
-						} else {
-							System.out.println("No se ha podido crear al estudiante en la base de datos");
 						}
 					}
 				}
@@ -87,61 +86,63 @@ public class EstudiantePrincipal {
 					estudiante = estudianteDAO.buscarEstudiante(id);
 					
 					/*Mostramos la informacion del estudiante*/
-					if(estudiante != null) {
+					if(estudiante.getId() != 0) {
 						System.out.println("\n" + "Estudiane: " + estudiante);
 					} else {
 						System.out.println("No se ha encontrado al estudiante en la base de datos");
-					}					
+					}
 				}
 				
 				/*Si la opcion es 4 modificamos un campo del estudiante*/
 				case 4 -> {
 					
-					/*Mostramos el menu de modificacion al usuario*/
-					menuModificacion();
-					
-					/*Leemos la opcion del usuario*/
-					opcion = sc.nextInt();
-					sc.nextLine();
-					
 					/*Pedimos al usuario que introduzca el id del estudiante llamando a la funcion*/
 					id = pedirId();
 					
-					/*Creamos un switch para que depende de la opcion del usuario se realice una funcion u otra*/
-					switch(opcion) {
-					
-					/*Si la opcion es 1 modificamos el email del estudiante*/
-					case 1 -> {
+					/*Si el estudiante se encuentra en la base de datos se realiza la modificacion*/
+					if(estudianteDAO.buscarEstudiante(id).getId() != 0) {
 						
-						/*Pedimos el email al estudiante llamando a la funcion*/
-						email = pedirEmail();
+						/*Mostramos el menu de modificacion al usuario*/
+						menuModificacion();
 						
-						/*Modificamos el email del estudiante llamando a la funcion*/
-						if(estudianteDAO.modificarEstudianteEmail(id, email)) {
-							System.out.println("Se ha modificado el email del estudiante");
-						} else {
-							System.out.println("No se ha podido modificar el email del estudiante");
+						/*Leemos la opcion del usuario*/
+						opcion = sc.nextInt();
+						sc.nextLine();
+						
+						/*Creamos un switch para que depende de la opcion del usuario se realice una funcion u otra*/
+						switch(opcion) {
+						
+						/*Si la opcion es 1 modificamos el email del estudiante*/
+						case 1 -> {
+							
+							/*Pedimos el email al estudiante llamando a la funcion*/
+							email = pedirEmail();
+							
+							/*Modificamos el email del estudiante llamando a la funcion*/
+							if(estudianteDAO.modificarEstudianteEmail(id, email)) {
+								System.out.println("Se ha modificado el email del estudiante en la base de datos");
+							} 
 						}
-					}
-					
-					/*Si la opcion es 2 modificamos el telefono del estudiante*/
-					case 2 -> {
 						
-						/*Pedimos el telefono al estudiante llamando a la funcion*/
-						telefono = pedirTelefono();
-						
-						/*Modificamos el telefono del estudiante llamando a la funcion*/
-						if(estudianteDAO.modificarEstudianteTelefono(id, telefono)) {
-							System.out.println("Se ha modificado el telefono del estudiante");
-						} else {
-							System.out.println("No se ha podido modificar el telefono del estudiante");
+						/*Si la opcion es 2 modificamos el telefono del estudiante*/
+						case 2 -> {
+							
+							/*Pedimos el telefono al estudiante llamando a la funcion*/
+							telefono = pedirTelefono();
+							
+							/*Modificamos el telefono del estudiante llamando a la funcion*/
+							if(estudianteDAO.modificarEstudianteTelefono(id, telefono)) {
+								System.out.println("Se ha modificado el telefono del estudiante en la base de datos");
+							} 
 						}
-					}
-					
-					/*Si la opcion no es ninguna de las anteriores informamos al usuario de que su opcion no es valida*/
-					default -> {
-						System.out.println("Opcion no valida");
-					}
+						
+						/*Si la opcion no es ninguna de las anteriores informamos al usuario de que su opcion no es valida*/
+						default -> {
+							System.out.println("Opcion no valida");
+						}
+						}
+					} else {
+						System.out.println("No se ha encontrado al estudiante en la base de datos");
 					}
 				}
 				
@@ -178,7 +179,8 @@ public class EstudiantePrincipal {
 	
 	private static void menuPrincipal() {
 		/*Mostramos el menu principal al usuario*/
-		System.out.println("\n" + "Menu:");
+		System.out.println("\n" + "    Gestion de Estudiantes");
+		System.out.println("------------------------------");
 		System.out.println("1. Crear estudiante");
 		System.out.println("2. Listar todos los estudiantes");
 		System.out.println("3. Buscar estudiante por id");
@@ -190,7 +192,8 @@ public class EstudiantePrincipal {
 	
 	public static void menuModificacion() {
 		/*Mostramos el menu de modificacion al usuario*/
-		System.out.println("\n" + "Menu:");
+		System.out.println("\n" + "    Menu de Modificacion");
+		System.out.println("----------------------------");
 		System.out.println("1. Modificar email");
 		System.out.println("2. Modificar telefono");
 		System.out.println("Introduce una opcion");
@@ -203,6 +206,7 @@ public class EstudiantePrincipal {
 		/*Creamos un for each para recorrer la lista y mostrar todos los estudiantes*/
 		for(Estudiante estudiante : estudiantes) {
 			System.out.println(estudiante);
+			System.out.println("-----------------------------------------------------------------------------");
 		}
 	}
 	
