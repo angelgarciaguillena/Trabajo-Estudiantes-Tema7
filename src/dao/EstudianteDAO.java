@@ -40,10 +40,19 @@ public class EstudianteDAO {
 		return conexion;
 	}
 	
-	public void crearEstudiante(Estudiante estudiante) {
+	/**
+	 * Funcion que añade un nuevo estudiante a la base de datos y devuelve true si se ha añadido
+	 * o false si no se ha podido añadir
+	 * 
+	 * @param estudiante Estudiante 
+	 * @return
+	 */
+	public boolean crearEstudiante(Estudiante estudiante) {
 		
 		String consulta = "INSERT INTO estudiantes (nombre, apellido, fecha_nacimiento, email, telefono) VALUES " +
 		"('" + estudiante.getNombre() + "', '" + estudiante.getApellido() + "', '" + estudiante.getFechaNacimiento() + "', '" + estudiante.getEmail() + "', '" + estudiante.getTelefono() + "')";
+		
+		boolean realizado = false;
 		
 		PreparedStatement sentencia;
 		
@@ -55,12 +64,14 @@ public class EstudianteDAO {
 			sentencia.setString(4, estudiante.getEmail());
 			sentencia.setString(5, estudiante.getTelefono());
 			sentencia.executeUpdate();
-			
+			realizado = true;
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido insertar al estudiante " + e.getMessage());
 		}
+		
+		return realizado;
 	}
-//	
+	
 	public ArrayList<Estudiante> listarEstudiantes() {
 		
 		String consulta = "SELECT * FROM estudiantes";
@@ -149,9 +160,11 @@ public class EstudianteDAO {
 		return estudiante;
 	}
 	
-	public void modificarEstudianteEmail(int id, String email) {
+	public boolean modificarEstudianteEmail(int id, String email) {
 		
 		String consulta = "UPDATE estudiantes SET telefono = '" + email + "' WHERE id_estudiante = " + id;
+		
+		boolean realizado = false;
 		
 		PreparedStatement sentencia;
 		
@@ -159,15 +172,19 @@ public class EstudianteDAO {
 			sentencia = conexion.prepareStatement(consulta);
 			sentencia.setString(5, email);
 			sentencia.executeUpdate();
-			
+			realizado = true;
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el email del estudiante " + e.getMessage());
 		}
+		
+		return realizado;
 	}
 	
-	public void modificarEstudianteTelefono(int id, String telefono) {
+	public boolean modificarEstudianteTelefono(int id, String telefono) {
 		
 		String consulta = "UPDATE estudiantes SET telefono = '" + telefono + "' WHERE id_estudiante = " + id;
+		
+		boolean realizado = false;
 		
 		PreparedStatement sentencia;
 		
@@ -175,24 +192,30 @@ public class EstudianteDAO {
 			sentencia = conexion.prepareStatement(consulta);
 			sentencia.setString(6, telefono);
 			sentencia.executeUpdate();
-			
+			realizado = true;
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el telefono del estudiante " + e.getMessage());
 		}
+		
+		return realizado;
 	}
 	
-	public void eliminarEstudiante(int id) {
+	public boolean eliminarEstudiante(int id) {
 		
 		String consulta = "DELETE FROM estudiantes WHERE id_estudiante = " + id; 
+		
+		boolean realizado = false;
 		
 		Statement sentencia;
 		
 		try {
 			sentencia = conexion.createStatement();
 			sentencia.executeUpdate(consulta);
-			
+			realizado = true;
 		} catch (SQLException e) {
 			System.out.println("Error: No existe el estudiante " + e.getMessage());
 		}
+		
+		return realizado;
 	}
 }
