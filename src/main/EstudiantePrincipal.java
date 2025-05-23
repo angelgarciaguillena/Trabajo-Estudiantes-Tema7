@@ -196,7 +196,7 @@ public class EstudiantePrincipal {
 		System.out.println("Introduce una opcion");
 	}
 	
-	public static void menuModificacion() {
+	private static void menuModificacion() {
 		/*Mostramos el menu de modificacion al usuario*/
 		System.out.println("\n" + "    Menu de Modificacion");
 		System.out.println("----------------------------");

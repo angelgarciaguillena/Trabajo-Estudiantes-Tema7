@@ -21,7 +21,7 @@ class Estudiante
 	--------------------------------
 	@Override:
 	+ public int hashCode()
-	+ public boolean equals()
+	+ public boolean equals(Object obj)
 	+ public String toString()
 	
 	

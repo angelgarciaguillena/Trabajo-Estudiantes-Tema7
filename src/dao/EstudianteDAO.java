@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import entidades.Estudiante;
 import utils.Constantes;
 
+/**
+ * Clase encargada de realizar las funciones crear, modificar, eliminar y leer en la 
+ * base de datos
+ * 
+ * @author Angel
+ */
 public class EstudianteDAO {
 	
 	/**
@@ -44,8 +50,8 @@ public class EstudianteDAO {
 	 * Funcion que añade un nuevo estudiante a la base de datos y devuelve true si se ha añadido
 	 * o false si no se ha podido añadir
 	 * 
-	 * @param estudiante Estudiante 
-	 * @return
+	 * @param estudiante Estudiante qe se va a añadir a la base de datos
+	 * @return Devuelve true si el estudiante se ha añadido o false si no se ha podido añadir
 	 */
 	public boolean crearEstudiante(Estudiante estudiante) {
 		
@@ -63,6 +69,7 @@ public class EstudianteDAO {
 			sentencia.setString(3, estudiante.getFechaNacimiento());
 			sentencia.setString(4, estudiante.getEmail());
 			sentencia.setString(5, estudiante.getTelefono());
+			
 			sentencia.executeUpdate();
 			
 			realizado = true;
@@ -104,6 +111,7 @@ public class EstudianteDAO {
 		
 		try {
 			sentencia = conexion.createStatement();
+			
 			ResultSet rs = sentencia.executeQuery(consulta);
 			
 			while(rs.next()) {
@@ -155,6 +163,7 @@ public class EstudianteDAO {
 		
 		try {
 			sentencia = conexion.createStatement();
+			
 			ResultSet rs = sentencia.executeQuery(consulta);
 			
 			if(rs.next()) {
@@ -195,8 +204,11 @@ public class EstudianteDAO {
 			sentencia = conexion.prepareStatement(consulta);
 			sentencia.setString(1, email);
 			sentencia.setInt(2, id);
+			
 			sentencia.executeUpdate();
+			
 			realizado = true;
+			
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el email del estudiante " + e.getMessage());
 		}
@@ -224,8 +236,11 @@ public class EstudianteDAO {
 			sentencia = conexion.prepareStatement(consulta);
 			sentencia.setString(1, telefono);
 			sentencia.setInt(2, id);
+			
 			sentencia.executeUpdate();
+			
 			realizado = true;
+			
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el telefono del estudiante " + e.getMessage());
 		}
