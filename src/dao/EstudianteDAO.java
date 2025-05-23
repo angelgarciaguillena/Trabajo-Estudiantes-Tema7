@@ -30,8 +30,14 @@ public class EstudianteDAO {
 	 * muestra un error
 	 */
 	public EstudianteDAO() {
+		
+		/*Creamos un try catch para que si no se ha podido establecer
+		 * la conexion con la base de datos avisamos al usuario*/
 		try {
+			
+			/*Establecemos la conexion con la base de datos*/
 			conexion = DriverManager.getConnection(Constantes.CONEXION, Constantes.USUARIO, Constantes.CONTRASEÑA);
+		
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido conectar con la base de datos");
 		}
@@ -55,29 +61,41 @@ public class EstudianteDAO {
 	 */
 	public boolean crearEstudiante(Estudiante estudiante) {
 		
+		/*Creamos una variable para almacenar la consulta que insertara al alumno en la base de datos*/
 		String consulta = "INSERT INTO estudiantes (nombre, apellido, fecha_nacimiento, email, telefono) VALUES " +
 		"(?, ?, ?, ?, ?)";
 		
+		/*Creamos una variable para almacenar si se ha insertado el estudiante o no*/
 		boolean realizado = false;
 		
+		/*Creamos la sentencia*/
 		PreparedStatement sentencia;
 		
+		/*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 		try {
+			
+			/*Preparamos la sentencia SQL*/
 			sentencia = conexion.prepareStatement(consulta);
+			
+			/*Almacenamos los datos en la consulta*/
 			sentencia.setString(1, estudiante.getNombre());
 			sentencia.setString(2, estudiante.getApellido());
 			sentencia.setString(3, estudiante.getFechaNacimiento());
 			sentencia.setString(4, estudiante.getEmail());
 			sentencia.setString(5, estudiante.getTelefono());
 			
+			/*Ejecutamos la sentencia*/
 			sentencia.executeUpdate();
 			
+			/*Establecemos que se ha insertado el estudiante*/
 			realizado = true;
 			
+		/*Si se produce un error al insertar al estudiante avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido insertar al estudiante " + e.getMessage());
 		}
 		
+		/*Devolvemos si se ha realizado la sentencia*/
 		return realizado;
 	}
 	
@@ -89,32 +107,49 @@ public class EstudianteDAO {
 	 */
 	public ArrayList<Estudiante> listarEstudiantes() {
 		
+		/*Creamos una variable para almacenar la consulta que muestra a los alumnos en la base de datos*/
 		String consulta = "SELECT * FROM estudiantes";
 		
+		/*Creamos una variable para almacenar el id del estudiante*/
 		int idEstudiante = 0;
 		
+		/*Creamos una variable para almacenar el nombre del estudiante*/
 		String nombre = "";
 		
+		/*Creamos una variable para almacenar el apellido del estudiante*/
 		String apellido = "";
 		
+		/*Creamos una variable para almacenar la fecha de nacimiento del estudiante*/
 		String fechaNacimiento = "";
 		
+		/*Creamos una variable para almacenar el email del estudiante*/
 		String email = "";
 		
+		/*Creamos una variable para almacenar el telefono del estudiante*/
 		String telefono = "";
 		
+		/*Creamos un estudiante*/
 		Estudiante estudiante = null;
 		
+		/*Creamos una lista para almacenar a los estudiantes*/
 		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
 		
+		/*Creamos la sentencia*/
 		Statement sentencia;
 		
+		/*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 		try {
+			
+			/*Preparamos la sentencia SQL*/
 			sentencia = conexion.createStatement();
 			
+			/*Ejecutamos la consulta*/
 			ResultSet rs = sentencia.executeQuery(consulta);
 			
+			/*Creamos un bucle while para almacenar todos los datos y añadir al estudiante a la lista mientras la consulta haya funcionado*/
 			while(rs.next()) {
+				
+				/*Almacenamos los datos del estudiante*/
 				idEstudiante = rs.getInt(1);
 				nombre = rs.getString(2);
 				apellido = rs.getString(3);
@@ -122,15 +157,19 @@ public class EstudianteDAO {
 				email = rs.getString(5);
 				telefono = rs.getString(6);
 				
+				/*Creamos un nuevo estudiante*/
 				estudiante = new Estudiante(idEstudiante, nombre, apellido, fechaNacimiento, email, telefono);
 				
+				/*Añadimos al estudiante a la lista*/
 				estudiantes.add(estudiante);
 			}
-			
+		
+		/*Si se produce un error en la consulta avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido mostrar a los estudiantes de la base de datos " + e.getMessage());
 		}
 		
+		/*Devolvemos la lista con los estudiantes*/
 		return estudiantes;
 	}
 	
@@ -143,29 +182,43 @@ public class EstudianteDAO {
 	 */
 	public Estudiante buscarEstudiante(int id) {
 		
+		/*Creamos una variable para almacenar la consulta que muestra al estudiante si su id es la misma*/
 		String consulta = "SELECT * FROM estudiantes WHERE id_estudiante = " + id;
 		
+		/*Creamos una variable para almacenar el id del estudiante*/
 		int idEstudiante = 0;
 		
+		/*Creamos una variable para almacenar el nombre del estudiante*/
 		String nombre = "";
 		
+		/*Creamos una variable para almacenar el apellido del estudiante*/
 		String apellido = "";
 		
+		/*Creamos una variable para almacenar la fecha de nacimiento del estudiante*/
 		String fechaNacimiento = "";
 		
+		/*Creamos una variable para almacenar el email del estudiante*/
 		String email = "";
 		
+		/*Creamos una variable para almacenar el telefono del estudiante*/
 		String telefono = "";
 		
+		/*Creamos un estudiante*/
 		Estudiante estudiante = null;
 		
+		/*Creamos la sentencia*/
 		Statement sentencia;
 		
+		/*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 		try {
+			
+			/*Preparamos la sentencia*/
 			sentencia = conexion.createStatement();
 			
+			/*Ejecutamos la sentencia*/
 			ResultSet rs = sentencia.executeQuery(consulta);
 			
+			/*Si la consulta tiene resultados almacenamos los datos del estudiante*/
 			if(rs.next()) {
 				idEstudiante = rs.getInt(1);
 				nombre = rs.getString(2);
@@ -175,12 +228,15 @@ public class EstudianteDAO {
 				telefono = rs.getString(6);
 			}
 			
+		/*Si se produce un error en la consulta avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha encontrado al estudiante " + e.getMessage());
 		}
 		
+		/*Creamos al estudiante*/
 		estudiante = new Estudiante(idEstudiante, nombre, apellido, fechaNacimiento, email, telefono);
 		
+		/*Devolvemos el estudiante*/
 		return estudiante;
 	}
 	
@@ -194,25 +250,37 @@ public class EstudianteDAO {
 	 */
 	public boolean modificarEstudianteEmail(int id, String email) {
 		
+		/*Creamos una variable para almacenar la consulta que actualiza el email del estudiante*/
 		String consulta = "UPDATE estudiantes SET email = ? WHERE id_estudiante = ?";
 		
+		/*Creamos una variable para almacenar si se ha realizado la actualizacion o no*/
 		boolean realizado = false;
 		
+		/*Creamos una sentencia*/
 		PreparedStatement sentencia;
 		
+		/*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 		try {
+			
+			/*Preparamos la consulta*/
 			sentencia = conexion.prepareStatement(consulta);
+			
+			/*Almacenamos los datos en la consulta*/
 			sentencia.setString(1, email);
 			sentencia.setInt(2, id);
 			
+			/*Ejecutamos la consulta*/
 			sentencia.executeUpdate();
 			
+			/*Establecemos que se ha realizado la modificacion*/
 			realizado = true;
 			
+		/*Si se produce un error en la actualizacion del email del estudiante avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el email del estudiante " + e.getMessage());
 		}
-			
+		
+		/*Devolvemos si se ha realizado la modificacion o no*/
 		return realizado;
 	}
 	
@@ -226,25 +294,37 @@ public class EstudianteDAO {
 	 */
 	public boolean modificarEstudianteTelefono(int id, String telefono) {
 		
+		/*Creamos una variable para almacenar la consulta que actualiza el telefono del estudiante*/
 		String consulta = "UPDATE estudiantes SET telefono = ? WHERE id_estudiante = ?";
 		
+		/*Creamos una variable para almacenar si se ha realizado la actualizacion o no*/
 		boolean realizado = false;
 		
+		/*Creamos una sentencia*/
 		PreparedStatement sentencia;
 		
+		/*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 		try {
+			
+			/*Preparamos la consulta*/
 			sentencia = conexion.prepareStatement(consulta);
+			
+			/*Introducimos los datos en la consulta*/
 			sentencia.setString(1, telefono);
 			sentencia.setInt(2, id);
 			
+			/*Ejecutamos la sentencia*/
 			sentencia.executeUpdate();
 			
+			/*Establecemos que se ha realizado la modificacion*/
 			realizado = true;
 			
+		/*Si se produce un error en la modificacion del telefono del estudiante avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido modificar el telefono del estudiante " + e.getMessage());
 		}
 		
+		/*Devolvemos si se ha realizado la modificacion o no*/
 		return realizado;
 	}
 	
@@ -256,34 +336,60 @@ public class EstudianteDAO {
 	 * @return Devuelve true si se ha eliminado el estudiante o false si no se ha eliminado
 	 */
 	public boolean eliminarEstudiante(int id) {
-
+		
+		/*Creamos una consulta que eliminara al estudiante de la tabla califiaciones*/
 	    String consultaCalificacion = "DELETE FROM calificaciones WHERE id_estudiante = ?"; 
+	    
+	    /*Creamos una consulta que eliminara al estudiante de la tabla matriculas*/
 	    String consultaMatricula = "DELETE FROM matriculas WHERE id_estudiante = ?"; 
+	    
+	    /*Creamos una consulta que eliminara al estudiante de la tabla estudiantes*/
 	    String consultaEstudiante = "DELETE FROM estudiantes WHERE id_estudiante = ?"; 
-
+	    
+	    /*Creamos una variable para almacenar si se ha eliminado al estudiante o no*/
 	    boolean realizado = false;
-
+	    
+	    /*Creamos la sentencia*/
 	    PreparedStatement sentencia;
-
+	    
+	    /*Creamos un try catch para notificar al usuario en caso de que se produzca un error*/
 	    try {
+	    	/*Preparamos la consulta de la tabla matriculas*/
             sentencia = conexion.prepareStatement(consultaMatricula);
+            
+            /*Añadimos los datos a la consulta de la tabla matriculas*/
             sentencia.setInt(1, id);
+            
+            /*Ejecutamos la consulta que afecta a la tabla matriculas*/
             sentencia.executeUpdate();
-
+            
+            /*Preparamos la consulta de la tabla calificaciones*/
             sentencia = conexion.prepareStatement(consultaCalificacion);
+            
+            /*Añadimos los datos a la consulta de la tabla calificaciones*/
             sentencia.setInt(1, id);
+            
+            /*Ejecutamos la consulta que afecta a la tabla calificaciones*/
             sentencia.executeUpdate();
-
+            
+            /*Preparamos la consulta de la tabla estudiantes*/
             sentencia = conexion.prepareStatement(consultaEstudiante);
+            
+            /*Añadimos los datos a la consulta de la tabla estudiantes*/
             sentencia.setInt(1, id);
+            
+            /*Ejecutamos la consulta que afecta a la tabla estudiantes*/
             sentencia.executeUpdate();
-
+            
+            /*Establecemos que se ha eliminado al estudiante de la base de datos*/
             realizado = true;
-
+            
+        /*Si se produce un error al eliminar al estudiante avisamos al usuario*/
         } catch (SQLException e) {
             System.out.println("Error: No existe el estudiante " + e.getMessage());
 	    }
 	    
+	    /*Devolvemos si se ha eliminado al estudiante o no*/
 	    return realizado;
 	}
 }
