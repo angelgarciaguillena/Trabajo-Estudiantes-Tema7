@@ -38,6 +38,7 @@ public class EstudianteDAO {
 			/*Establecemos la conexion con la base de datos*/
 			conexion = DriverManager.getConnection(Constantes.CONEXION, Constantes.USUARIO, Constantes.CONTRASEÑA);
 		
+		/*Si se produce un error con la conexion en la base de datos avisamos al usuario*/
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido conectar con la base de datos");
 		}
@@ -77,11 +78,19 @@ public class EstudianteDAO {
 			/*Preparamos la sentencia SQL*/
 			sentencia = conexion.prepareStatement(consulta);
 			
-			/*Almacenamos los datos en la consulta*/
+			/*Almacenamos el nombre del estudiante en la consulta*/
 			sentencia.setString(1, estudiante.getNombre());
+			
+			/*Almacenamos el apellido del estudiante en la consulta*/
 			sentencia.setString(2, estudiante.getApellido());
+			
+			/*Almacenamos la fecha de nacimiento del estudiante en la consulta*/
 			sentencia.setString(3, estudiante.getFechaNacimiento());
+			
+			/*Almacenamos el email del estudiante en la consulta*/
 			sentencia.setString(4, estudiante.getEmail());
+			
+			/*Almacenamos el telefono del estudiante en la consulta*/
 			sentencia.setString(5, estudiante.getTelefono());
 			
 			/*Ejecutamos la sentencia*/
@@ -149,12 +158,22 @@ public class EstudianteDAO {
 			/*Creamos un bucle while para almacenar todos los datos y añadir al estudiante a la lista mientras la consulta haya funcionado*/
 			while(rs.next()) {
 				
-				/*Almacenamos los datos del estudiante*/
+				/*Almacenamos lel id del estudiante*/
 				idEstudiante = rs.getInt(1);
+				
+				/*Almacenamos el nombre del estudiante*/
 				nombre = rs.getString(2);
+				
+				/*Almacenamos el apellido del estudiante*/
 				apellido = rs.getString(3);
+				
+				/*Almacenamos la fecha de nacimiento del estudiante*/
 				fechaNacimiento = rs.getString(4);
+				
+				/*Almacenamos el email del estudiante*/
 				email = rs.getString(5);
+				
+				/*Almacenamos el telefono del estudiante*/
 				telefono = rs.getString(6);
 				
 				/*Creamos un nuevo estudiante*/
@@ -220,11 +239,23 @@ public class EstudianteDAO {
 			
 			/*Si la consulta tiene resultados almacenamos los datos del estudiante*/
 			if(rs.next()) {
+				
+				/*Almacenamos el id del estudiante*/
 				idEstudiante = rs.getInt(1);
+				
+				/*Almacenamos el nombre del estudiante*/
 				nombre = rs.getString(2);
+				
+				/*Almacenamos el apellido del estudiante*/
 				apellido = rs.getString(3);
+				
+				/*Almacenamos la fecha de nacimiento del estudiante*/
 				fechaNacimiento = rs.getString(4);
+				
+				/*Almacenamos el email del estudiante*/
 				email = rs.getString(5);
+				
+				/*Almacenamos el telefono del estudiante*/
 				telefono = rs.getString(6);
 			}
 			
@@ -265,8 +296,10 @@ public class EstudianteDAO {
 			/*Preparamos la consulta*/
 			sentencia = conexion.prepareStatement(consulta);
 			
-			/*Almacenamos los datos en la consulta*/
+			/*Almacenamos el nuevo email en la consulta*/
 			sentencia.setString(1, email);
+			
+			/*Almacenamos el id del estudiante en la consulta*/
 			sentencia.setInt(2, id);
 			
 			/*Ejecutamos la consulta*/
@@ -309,8 +342,10 @@ public class EstudianteDAO {
 			/*Preparamos la consulta*/
 			sentencia = conexion.prepareStatement(consulta);
 			
-			/*Introducimos los datos en la consulta*/
+			/*Almacenamos el nuevo telefono del estudiante en la consulta*/
 			sentencia.setString(1, telefono);
+			
+			/*Almacenamos el id del estudiante en la consulta*/
 			sentencia.setInt(2, id);
 			
 			/*Ejecutamos la sentencia*/
@@ -357,7 +392,7 @@ public class EstudianteDAO {
 	    	/*Preparamos la consulta de la tabla matriculas*/
             sentencia = conexion.prepareStatement(consultaMatricula);
             
-            /*Añadimos los datos a la consulta de la tabla matriculas*/
+            /*Añadimos el id del estudiante en la consulta de la tabla matriculas*/
             sentencia.setInt(1, id);
             
             /*Ejecutamos la consulta que afecta a la tabla matriculas*/
@@ -366,7 +401,7 @@ public class EstudianteDAO {
             /*Preparamos la consulta de la tabla calificaciones*/
             sentencia = conexion.prepareStatement(consultaCalificacion);
             
-            /*Añadimos los datos a la consulta de la tabla calificaciones*/
+            /*Añadimos el id del estudiante en la consulta de la tabla calificaciones*/
             sentencia.setInt(1, id);
             
             /*Ejecutamos la consulta que afecta a la tabla calificaciones*/
@@ -375,7 +410,7 @@ public class EstudianteDAO {
             /*Preparamos la consulta de la tabla estudiantes*/
             sentencia = conexion.prepareStatement(consultaEstudiante);
             
-            /*Añadimos los datos a la consulta de la tabla estudiantes*/
+            /*Añadimos el id del estudiante en la consulta de la tabla estudiantes*/
             sentencia.setInt(1, id);
             
             /*Ejecutamos la consulta que afecta a la tabla estudiantes*/
