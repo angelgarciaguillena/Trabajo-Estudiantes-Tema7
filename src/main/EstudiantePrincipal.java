@@ -152,11 +152,17 @@ public class EstudiantePrincipal {
 					/*Pedimos la id del estudiante al usuario llamando a la funcion*/
 					id = pedirId();
 					
-					/*Eliminamos al estudiante llamando a la funcion*/
-					if(estudianteDAO.eliminarEstudiante(id)) {
-						System.out.println("Se ha eliminado al estudiante de la base de datos");
+					/*Si el estudiante no se encuentra en la base de datos informamos al usuario pero
+					 * si esta en la base de datos lo eliminamos*/
+					if (estudianteDAO.buscarEstudiante(id).getId() != 0) {
+						
+						/*Eliminamos al estudiante llamando a la funcion*/
+						if(estudianteDAO.eliminarEstudiante(id)) {
+							System.out.println("Se ha eliminado al estudiante de la base de datos");
+						} 
+						
 					} else {
-						System.out.println("No se ha podido eliminar al estudiante de la base de datos");
+						System.out.println("No se ha encontrado al estudiante en la base de datos");
 					}
 				}
 				

@@ -64,7 +64,9 @@ public class EstudianteDAO {
 			sentencia.setString(4, estudiante.getEmail());
 			sentencia.setString(5, estudiante.getTelefono());
 			sentencia.executeUpdate();
+			
 			realizado = true;
+			
 		} catch (SQLException e) {
 			System.out.println("Error: No se ha podido insertar al estudiante " + e.getMessage());
 		}
@@ -72,6 +74,12 @@ public class EstudianteDAO {
 		return realizado;
 	}
 	
+	/**
+	 * Funcion que se encarga de devolver una lista con todos los
+	 * estudiantes de la base de datos
+	 * 
+	 * @return Devuelve una lista con todos los estudiantes de la base de datos
+	 */
 	public ArrayList<Estudiante> listarEstudiantes() {
 		
 		String consulta = "SELECT * FROM estudiantes";
@@ -118,6 +126,13 @@ public class EstudianteDAO {
 		return estudiantes;
 	}
 	
+	/**
+	 * Funcion que busca a un estudiante en la base de datos segun el id y
+	 * devuelve al estudiante 
+	 *  
+	 * @param id Id del estudiante que se quiere buscar
+	 * @return Devuelve al estudiante
+	 */
 	public Estudiante buscarEstudiante(int id) {
 		
 		String consulta = "SELECT * FROM estudiantes WHERE id_estudiante = " + id;
@@ -160,6 +175,14 @@ public class EstudianteDAO {
 		return estudiante;
 	}
 	
+	/**
+	 * Funcion encargada de modificar el email de un estudiante en la base de datos y
+	 * devuelve true si lo ha podido modificar o false si no ha podido
+	 * 
+	 * @param id Id del estudiante que se quiere cambiar el email
+	 * @param email Nuevo email del estudiante
+	 * @return Devuelve true si se ha podido cambiar el email o false si no ha podido
+	 */
 	public boolean modificarEstudianteEmail(int id, String email) {
 		
 		String consulta = "UPDATE estudiantes SET email = ? WHERE id_estudiante = ?";
@@ -168,23 +191,27 @@ public class EstudianteDAO {
 		
 		PreparedStatement sentencia;
 		
-		if(buscarEstudiante(id).getId() != 0) {
-			
-			try {
-				sentencia = conexion.prepareStatement(consulta);
-				sentencia.setString(1, email);
-				sentencia.setInt(2, id);
-				sentencia.executeUpdate();
-				realizado = true;
-			} catch (SQLException e) {
-				System.out.println("Error: No se ha podido modificar el email del estudiante " + e.getMessage());
-			}
-			
+		try {
+			sentencia = conexion.prepareStatement(consulta);
+			sentencia.setString(1, email);
+			sentencia.setInt(2, id);
+			sentencia.executeUpdate();
+			realizado = true;
+		} catch (SQLException e) {
+			System.out.println("Error: No se ha podido modificar el email del estudiante " + e.getMessage());
 		}
-		
+			
 		return realizado;
 	}
 	
+	/**
+	 * Funcion encargada de buscar al estudiante por su id y modificar el telefono 
+	 * del estudiante y devuelve true si se ha modificado o false si no se ha modificado
+	 * 
+	 * @param id Id del estudiante que se quiere modificar el telefono
+	 * @param telefono Nuevo telefono del estudiante
+	 * @return Devuelve true si se ha modificado el telefono o false si no se ha modificado
+	 */
 	public boolean modificarEstudianteTelefono(int id, String telefono) {
 		
 		String consulta = "UPDATE estudiantes SET telefono = ? WHERE id_estudiante = ?";
@@ -193,42 +220,55 @@ public class EstudianteDAO {
 		
 		PreparedStatement sentencia;
 		
-		if(buscarEstudiante(id).getId() != 0) {
-			
-			try {
-				sentencia = conexion.prepareStatement(consulta);
-				sentencia.setString(1, telefono);
-				sentencia.setInt(2, id);
-				sentencia.executeUpdate();
-				realizado = true;
-			} catch (SQLException e) {
-				System.out.println("Error: No se ha podido modificar el telefono del estudiante " + e.getMessage());
-			}
+		try {
+			sentencia = conexion.prepareStatement(consulta);
+			sentencia.setString(1, telefono);
+			sentencia.setInt(2, id);
+			sentencia.executeUpdate();
+			realizado = true;
+		} catch (SQLException e) {
+			System.out.println("Error: No se ha podido modificar el telefono del estudiante " + e.getMessage());
 		}
 		
 		return realizado;
 	}
 	
+	/**
+	 * Funcion encargada de buscar y eliminar al estudiante de la base de datos y devuelve true
+	 * si se ha eliminado de la base de datos o false si no se ha podido eliminar
+	 * 
+	 * @param id Id del estudiante que se quiere eliminar de la base de datos
+	 * @return Devuelve true si se ha eliminado el estudiante o false si no se ha eliminado
+	 */
 	public boolean eliminarEstudiante(int id) {
-		
-		String consulta = "DELETE FROM estudiantes WHERE id_estudiante = ?"; 
-		
-		boolean realizado = false;
-		
-		PreparedStatement sentencia;
-		
-		if(buscarEstudiante(id).getId() != 0) {
-			
-			try {
-				sentencia = conexion.prepareStatement(consulta);
-				sentencia.setInt(1, id);
-				sentencia.executeUpdate(consulta);
-				realizado = true;
-			} catch (SQLException e) {
-				System.out.println("Error: No existe el estudiante " + e.getMessage());
-			}
-		}
 
-		return realizado;
+	    String consultaCalificacion = "DELETE FROM calificaciones WHERE id_estudiante = ?"; 
+	    String consultaMatricula = "DELETE FROM matriculas WHERE id_estudiante = ?"; 
+	    String consultaEstudiante = "DELETE FROM estudiantes WHERE id_estudiante = ?"; 
+
+	    boolean realizado = false;
+
+	    PreparedStatement sentencia;
+
+	    try {
+            sentencia = conexion.prepareStatement(consultaMatricula);
+            sentencia.setInt(1, id);
+            sentencia.executeUpdate();
+
+            sentencia = conexion.prepareStatement(consultaCalificacion);
+            sentencia.setInt(1, id);
+            sentencia.executeUpdate();
+
+            sentencia = conexion.prepareStatement(consultaEstudiante);
+            sentencia.setInt(1, id);
+            sentencia.executeUpdate();
+
+            realizado = true;
+
+        } catch (SQLException e) {
+            System.out.println("Error: No existe el estudiante " + e.getMessage());
+	    }
+	    
+	    return realizado;
 	}
 }
