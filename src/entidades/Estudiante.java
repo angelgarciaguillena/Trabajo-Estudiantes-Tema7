@@ -63,7 +63,7 @@ public class Estudiante {
 			this.fechaNacimiento = fechaNacimiento;
 		}
 		
-		if(email != null && !email.isBlank()) {
+		if(email != null && !email.isBlank() && email.contains("@")) {
 			this.email = email;
 		}
 		
@@ -187,18 +187,18 @@ public class Estudiante {
 	}
 	
 	/**
-	 * Funcion encargada de identificar al estudiante segun su id
+	 * Funcion encargada de identificar al estudiante segun su email
 	 * y devuelve un numero que identifica al estudiante
 	 * 
 	 * @return Devuelve un numero que identifica al estudiante
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(email);
 	}
 	
 	/**
-	 * Funcion que compara si dos alumnos son iguales segun su id y devuelve 
+	 * Funcion que compara si dos alumnos son iguales segun su email y devuelve 
 	 * true si lo son o false si no son iguales
 	 * 
 	 * @return Devuelve true si son iguales o false si no lo son
@@ -206,7 +206,7 @@ public class Estudiante {
 	@Override
 	public boolean equals(Object obj) {
 		Estudiante estudiante2 = (Estudiante) obj;
-		return this.id == estudiante2.id;
+		return (this.email.equalsIgnoreCase(estudiante2.email));
 	}
 	
 	/**
